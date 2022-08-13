@@ -33,6 +33,9 @@ const cppExecutor=async (dirpath,lang,code,input)=>{
     let compileErrorList=compileError.split(sourceFilePath);
     console.log(compileErrorList);
     let compileTimeError=compileErrorList.join(' ');
+
+
+    compileTimeError=compileError;
     // let compileErrorList=compileError.split('\n');
     // console.log(compileErrorList);
     if(compileTimeError){

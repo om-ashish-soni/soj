@@ -18,13 +18,14 @@ const login=async (req,res)=>{
         return;
     }
     const userdirpath=await UserFolderCreator(username);
-    // existingUser.userdirpath=userdirpath;
-    // await existingUser.save();
+    existingUser.userdirpath=userdirpath;
+    await existingUser.save();
     console.log("userdirpath : ",userdirpath);
     console.log("user login  : ",username , "202");
     res.status(202);
     res.json({
-        "accepted":"yes"
+        "accepted":"yes",
+        "userdirpath":userdirpath
     })
     
     return;
