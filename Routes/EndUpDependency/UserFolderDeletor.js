@@ -8,7 +8,8 @@ const UserFolderDeletor=async (username)=>{
     let userDirPath=path.join(baseDirPath,username)
     if(fs.existsSync(userDirPath)){
         console.log("going to delete ",userDirPath);
-        fs.rmdirSync(userDirPath);
+        // fs.rmdirSync(userDirPath);
+        fs.rmdirSync(userDirPath, { recursive: true });
         console.log("deleted userDirPath",userDirPath);
     }else{
         console.log("does not exists dir",userDirPath);

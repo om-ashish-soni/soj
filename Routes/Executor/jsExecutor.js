@@ -18,6 +18,8 @@ const jsExecutor=async (dirpath,lang,code,input)=>{
     let output=result.stdout.toString();
     let error=result.stderr.toString();
     
+    fs.unlinkSync(filepath);
+    fs.unlinkSync(inputFilePath);
     return {
         output:output,
         error:error
