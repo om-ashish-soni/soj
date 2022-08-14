@@ -7,6 +7,8 @@ const processor=async (command)=>{
     try{
         const {stdout,stderr}=await exec(command);
         console.log("in processor : ",stdout,stderr);
+        console.log("stdout : ",stdout);
+        console.log("stderr : ",stderr);
         return {
             stdout:stdout,
             stderr:stderr
@@ -14,7 +16,8 @@ const processor=async (command)=>{
     }catch(err){
         return {
             stdout:'',
-            stderr:err.message
+            stderr:err.message,
+            stderrdetail:err
         }
     }
     
