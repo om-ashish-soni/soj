@@ -7,7 +7,6 @@ const child_process=require('child_process');
 const exec = util.promisify(child_process.exec);
 
 const cppExecutor=async (dirpath,lang,code,input)=>{
-    
     console.log("in cpp executor");
     let sourceFileName="main.cpp";
     let sourceFilePath=path.join(dirpath,sourceFileName);
@@ -21,7 +20,7 @@ const cppExecutor=async (dirpath,lang,code,input)=>{
     let executableFileName="";
     if(platform != 'win32'){
         executableFileName='a.out';
-        executableFilePath=path.join(dirpath,execuutableFileName);
+        executableFilePath=path.join(dirpath,executableFileName);
     }else{
         executableFileName='a.exe';
         executableFilePath=path.join(dirpath,executableFileName);
@@ -59,6 +58,10 @@ const cppExecutor=async (dirpath,lang,code,input)=>{
     
 
     // console.log('executableFilePath : ',executableFilePath);
+    if(fs.existsSync(sourceFilePath)) fs.unlinkSync(sourceFilePath);
+    if(fs.existsSync(inputFilePath)) fs.unlinkSync(inputFilePath);
+
+
     const runtimeOutput=child_process.execFileSync(executableFilePath,{input:input}).toString();
     return {
         "checker":checkerResult.stdout,

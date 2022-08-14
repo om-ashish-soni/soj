@@ -12,6 +12,7 @@ const doStartupStuff=async()=>{
         fs.mkdirSync(dirpath);
         console.log("created dirpath",dirpath);
     }
+
 }
 module.exports={
     doStartupStuff:doStartupStuff
