@@ -18,12 +18,16 @@ const cppExecutor=async (dirpath,lang,code,input)=>{
     fs.writeFileSync(inputFilePath,input);
 
     let executableFilePath="";
+    let executableFileName="";
     if(platform != 'win32'){
-        executableFilePath=path.join(dirpath,'a.out');
+        executableFileName='a.out';
+        executableFilePath=path.join(dirpath,execuutableFileName);
     }else{
-        executableFilePath=path.join(dirpath,'a.exe');
+        executableFileName='a.exe';
+        executableFilePath=path.join(dirpath,executableFileName);
     }
 
+    // const compileCommand=`g++ ${sourceFilePath} -o ${executableFilePath}`;
     const compileCommand=`g++ ${sourceFilePath} -o ${executableFilePath}`;
     const compileResult=await processor(compileCommand);
     let compileOutput=compileResult.stdout;
@@ -35,6 +39,8 @@ const cppExecutor=async (dirpath,lang,code,input)=>{
     let compileTimeError=compileErrorList.join(' ');
 
 
+    const checkerResult=await processor(`ls ${dirpath}`);
+
     compileTimeError=compileError;
     // let compileErrorList=compileError.split('\n');
     // console.log(compileErrorList);
@@ -44,6 +50,7 @@ const cppExecutor=async (dirpath,lang,code,input)=>{
         console.log("compileTimeError occured")
         return {
             output:compileTimeError,
+            checker:checkerResult.stdout,
             error:'compile time error'
         }
     }
@@ -54,6 +61,7 @@ const cppExecutor=async (dirpath,lang,code,input)=>{
     // console.log('executableFilePath : ',executableFilePath);
     const runtimeOutput=child_process.execFileSync(executableFilePath,{input:input}).toString();
     return {
+        "checker":checkerResult.stdout,
         "output":runtimeOutput
     }
     
