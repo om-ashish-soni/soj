@@ -3,7 +3,7 @@ const schema = require('../Database/schema');
 const { findExistingUserConcrete } = require('../Authentication/findExistingUser');
 const {cppExecutor} = require('./cppExecutor');
 const {upsertDir} = require("../fileManagement/upsertDir");
-
+const {jsExecutor}=require('./jsExecutor')
 const executor=async (req, res) => {
     const username=req.body.username;
     const existingUser=await findExistingUserConcrete(username);
@@ -23,6 +23,8 @@ const executor=async (req, res) => {
 
     if(lang=='c_cpp'){
         result=await cppExecutor(userdirpath,lang,code,input)
+    }else if(lang=='javascript'){
+        result=await jsExecutor(userdirpath,lang,code,input)
     }
 
     res.status(202);
