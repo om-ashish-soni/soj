@@ -5,6 +5,7 @@ const {cppExecutor} = require('./cppExecutor');
 const {upsertDir} = require("../fileManagement/upsertDir");
 const {jsExecutor}=require('./jsExecutor')
 const {pythonExecutor}=require('./pythonExecutor')
+const {javaExecutor}=require('./javaExecutor')
 const executor=async (req, res) => {
     const username=req.body.username;
     const existingUser=await findExistingUserConcrete(username);
@@ -28,6 +29,8 @@ const executor=async (req, res) => {
         result=await jsExecutor(userdirpath,lang,code,input)
     }else if(lang=='python'){
         result=await pythonExecutor(userdirpath,lang,code,input)
+    }else if(lang=='java'){
+        result=await javaExecutor(userdirpath,lang,code,input)
     }
 
     res.status(202);
