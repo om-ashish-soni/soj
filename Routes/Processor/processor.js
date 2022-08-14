@@ -7,8 +7,8 @@ const processor=async (command)=>{
     try{
         const {stdout,stderr}=await exec(command);
         console.log("in processor : ",stdout,stderr);
-        console.log("stdout : ",stdout);
-        console.log("stderr : ",stderr);
+        // console.log("stdout : ",stdout);
+        // console.log("stderr : ",stderr);
         return {
             stdout:stdout,
             stderr:stderr
