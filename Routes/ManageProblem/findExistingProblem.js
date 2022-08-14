@@ -10,7 +10,13 @@ const findExistingProblem = async (problemcode) => {
     ])
     return existingProblems.length > 0;
 }
-
+const findExistingProblemConcrete=async (problemcode)=>{
+    const existingProblem=await schema.Problem.findOne({
+        problemcode:problemcode
+    });
+    return existingProblem;
+}
 module.exports = {
     findExistingProblem: findExistingProblem,
+    findExistingProblemConcrete:findExistingProblemConcrete
 }

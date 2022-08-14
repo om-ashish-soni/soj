@@ -1,4 +1,5 @@
-const { java } = require('compile-run');
+const compileRun = require('compile-run');
+const java=compileRun.java;
 const fs=require('fs');
 const path=require('path')
 const {processor} = require('../Processor/processor')
@@ -43,7 +44,7 @@ const javaExecutorLocally=async (dirpath,lang,code,input)=>{
 const javaExecutor=async (dirpath,lang,code,input)=>{
 
     console.log("java : ",java);
-
+    console.log("compile-run :",compileRun);
     // let filename='Main.java';
     // let filepath=path.join(dirpath,filename);
     // fs.writeFileSync(filepath,code);

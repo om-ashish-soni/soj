@@ -30,6 +30,7 @@ const authenticationRouter=require('./Routes/Authentication/authIndex');
 const problemManagementRouter=require('./Routes/ManageProblem/manageProblemIndex');
 const problemsRouter=require('./Routes/Problems/problemIndex');
 const executorRouter=require('./Routes/Executor/executorIndex');
+const judgeRouter=require('./Routes/Judge/judgeIndex');
 const dotenv=require('dotenv')
 dotenv.config()
 
@@ -47,6 +48,7 @@ app.use('/auth',authenticationRouter);
 app.use('/problemManagement',problemManagementRouter);
 app.use('/problems',problemsRouter);
 app.use('/executor',executorRouter);
+app.use('/submit',judgeRouter);
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, "./");
