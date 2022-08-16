@@ -25,7 +25,8 @@ const pythonExecutor=async (dirpath,lang,code,input,timelimit=5000,memorylimit=1
     fs.unlinkSync(inputFilePath);
     return {
         output:result.stdout,
-        error:result.stderr
+        error:result.stderr,
+        executionTime:result.executionTime
     }
 }
 
