@@ -7,6 +7,7 @@ const comparator = async (givenText, correctText) => {
     const matchResult={
         status:'AC',
     }
+    
     givenSplit=givenText.split(/\r?\n/);
     correctSplit=correctText.split(/\r?\n/);
     // console.log(givenSplit,correctSplit)
