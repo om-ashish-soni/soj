@@ -41,7 +41,8 @@ const judgeProblem=async (req,res)=>{
     const matchResult=await comparator(userOutput,correctOutput);
 
     res.json({
-        result:matchResult
+        result:matchResult,
+        executionTime:result.executionTime
     })
     
 }
