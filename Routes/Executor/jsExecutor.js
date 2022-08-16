@@ -2,6 +2,7 @@
 const child_process=require('child_process')
 const fs=require('fs');
 const path=require('path');
+const { performance } = require('perf_hooks');
 const {boundedProcessor} = require('../Processor/boundedProcessor');
 const {processor} = require('../Processor/processor')
 const jsExecutor=async (dirpath,lang,code,input)=>{
@@ -15,8 +16,12 @@ const jsExecutor=async (dirpath,lang,code,input)=>{
     
     let command='node '+filepath + ' < '+inputFilePath;
     // let result=await processor(command);
+    let startTime=performance.now();
     let result=await boundedProcessor(command);
-    
+    let endTime=performance.now();
+
+    let executionTime=endTime-startTime;
+
     let output=result.stdout.toString();
     let error=result.stderr.toString();
     
@@ -24,7 +29,8 @@ const jsExecutor=async (dirpath,lang,code,input)=>{
     fs.unlinkSync(inputFilePath);
     return {
         output:output,
-        error:error
+        error:error,
+        executionTime:executionTime
     }
     // const result=await processor('node try.js')
     // console.log(result);
