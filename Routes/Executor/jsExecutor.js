@@ -1,7 +1,8 @@
 
 const child_process=require('child_process')
 const fs=require('fs');
-const path=require('path')
+const path=require('path');
+const {boundedProcessor} = require('../Processor/boundedProcessor');
 const {processor} = require('../Processor/processor')
 const jsExecutor=async (dirpath,lang,code,input)=>{
     let filename='main.js';
@@ -13,7 +14,8 @@ const jsExecutor=async (dirpath,lang,code,input)=>{
     fs.writeFileSync(inputFilePath,input);
     
     let command='node '+filepath + ' < '+inputFilePath;
-    let result=await processor(command);
+    // let result=await processor(command);
+    let result=await boundedProcessor(command);
     
     let output=result.stdout.toString();
     let error=result.stderr.toString();

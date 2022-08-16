@@ -1,5 +1,7 @@
 
 const comparator = async (givenText, correctText) => {
+    givenText=givenText.trim();
+    correctText=correctText.trim();
     console.log("in comparator");
     // console.log(givenText, "vs ", correctText);
     const matchResult={

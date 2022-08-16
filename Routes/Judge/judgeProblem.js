@@ -13,13 +13,16 @@ const judgeProblem=async (req,res)=>{
     const problemcode=req.body.problemcode;
     const problem=await findExistingProblemConcrete(problemcode);
     console.log("judgeProblem : ",problemcode,username,userdirpath);
+    // console.log("problem : ",problem)
     const input=problem.input;
 
     const lang=req.body.lang;
     const code=req.body.code;
+    let timelimit=(problem.timelimit)?(problem.timelimit):(5000);
+    let memorylimit=(problem.memorylimit)?(problem.memorylimit):(1048576);
 
 
-    const result=await languageExecutor(userdirpath,lang,code,input);
+    const result=await languageExecutor(userdirpath,lang,code,input,timelimit,memorylimit);
 
     console.log('result in judge : ',result);
 

@@ -23,6 +23,25 @@ const problem_schema={
     input:String,
     output:String,
     difficulty:String,
+    timelimit:Number,
+    memorylimit:Number,
+    setter:String,
+    tester:String,
+    date:{
+        type:Date,
+        default:Date.now
+    },
+    correctSubmissions:{
+        type:Number,
+        default:0
+    },
+    totalSubmissions:{
+        type:Number,
+        default:0
+    },
+    tags:[{
+        type:String
+    }]
 }
 const Problem = mongoose.model("problems",problem_schema);
 exports.Problem=Problem;
