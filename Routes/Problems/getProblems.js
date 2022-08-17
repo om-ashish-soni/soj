@@ -25,7 +25,7 @@ const getProblem=async (req,res)=>{
         });
         return;
     }
-    res.status(404);
+    res.status(200);
     res.json({
         "accepted":"no",
         "error":"not found",
@@ -55,7 +55,7 @@ const getProblems=async (req,res)=>{
             problemList:problemList
         })
     }
-    res.status(424);
+    res.status(200);
     res.json({
         accepted:"no",
         problemList:[],
@@ -80,7 +80,7 @@ const getProblemsByTag=async (req,res)=>{
             problemList:problemList
         })
     }
-    res.status(424);
+    res.status(200);
     res.json({
         accepted:"no",
         problemList:[],

@@ -7,7 +7,7 @@ const logout=async (req,res)=>{
     const isExistingUser=await findExistingUser(username);
     if(isExistingUser==false){
         console.log("user logout  : ",username , "404");
-        res.status('404');
+        res.status(404);
         res.json({
             "accepted":"no",
             "error":"invalid credentials username or password provided",

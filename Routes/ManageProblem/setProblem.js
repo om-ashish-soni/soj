@@ -5,7 +5,7 @@ const setProblem=async (req,res)=>{
     const problemcode=req.body.problemcode;
     const isExistingProblem=await findExistingProblem(problemcode);
     if(isExistingProblem==true){
-        res.status('409');
+        res.status('200');
         res.json({
             "accepted":"no",
             "error":"conflict occured",
@@ -13,12 +13,13 @@ const setProblem=async (req,res)=>{
         })
         return;
     }
-
-    console.log(req.body);
-    req.body.timelimit=parseFloat(req.body.timelimit?req.body.timelimit:0)*1000;
-    req.body.memorylimit=parseFloat(req.body.memorylimit?req.body.memorylimit:0)*1024;
-    req.body.tags=req.body.tags?req.body.tags:['general']
-    const newProblem=new schema.Problem(req.body);
+    console.log('problem',req.body.problem);
+    const problem=req.body.problem;
+    
+    problem.timelimit=parseFloat(problem.timelimit?problem.timelimit:0)*1000;
+    problem.memorylimit=parseFloat(problem.memorylimit?problem.memorylimit:0)*1024;
+    problem.tags=problem.tags?problem.tags:['general']
+    const newProblem=new schema.Problem(problem);
     await newProblem.save();
     res.status(201);
     res.json({

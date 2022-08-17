@@ -17,7 +17,7 @@ const userProfile=async (req,res)=>{
     ]);
     if(existingUsers.length==0){
         console.log("in userProfile : ",username,404);
-        res.status(404);
+        res.status(200);
         return res.json({
             "accepted":"no",
             "profileData":""

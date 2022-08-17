@@ -1,11 +1,11 @@
 const express = require('express')
 const router = express.Router()
-const cors=require('cors')
-router.use(cors({
-    origin: true,
-    methods: ["GET", "POST"],
-    credentials: true,
-}));
+// const cors=require('cors')
+// router.use(cors({
+//     origin: true,
+//     methods: ["GET", "POST"],
+//     credentials: true,
+// }));
 const signin_module=require('./signin')
 const login_module=require('./login');
 const logout_module = require('./logout');
