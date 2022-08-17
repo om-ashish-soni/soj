@@ -21,19 +21,24 @@ const boundedProcessor=async (command,timelimit=5000,memorylimit=1048576)=>{
         let endTime=-1;
         const {stdout,stderr}=await exec(command,options);
         endTime=performance.now();
-
+        let status='OK';
+        if(stderr) status=stderr;
+        
         return {
+            status:status,
             stdout:stdout,
             stderr:stderr,
             executionTime:endTime-startTime
         };
     }catch(err){
         console.log("error in boundedProcessor : ",err)
+        
         return {
+            status:'ERROR',
             stdout:'',
-            stderr:err.message,
+            stderr:'error : '+ err.message,
             stderrdetail:err,
-            
+            executionTime:0.00
         }
     }
     

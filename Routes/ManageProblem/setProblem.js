@@ -14,6 +14,10 @@ const setProblem=async (req,res)=>{
         return;
     }
 
+    console.log(req.body);
+    req.body.timelimit=parseFloat(req.body.timelimit?req.body.timelimit:0)*1000;
+    req.body.memorylimit=parseFloat(req.body.memorylimit?req.body.memorylimit:0)*1024;
+    req.body.tags=req.body.tags?req.body.tags:['general']
     const newProblem=new schema.Problem(req.body);
     await newProblem.save();
     res.status(201);

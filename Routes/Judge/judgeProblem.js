@@ -27,12 +27,12 @@ const judgeProblem=async (req,res)=>{
     console.log('result in judge : ',result);
 
     if(result.error){
-        res.status(400)
+        problem.totalSubmissions++;
+        await problem.save();
+        res.status(200)
         return res.json({
-            "status":"ERROR",
-            "msg":"error occured in program",
-            "output":"",
-            "error":result.error
+            result:result,
+            problem:problem
         })
     }
     const userOutput=result.output;
@@ -40,9 +40,17 @@ const judgeProblem=async (req,res)=>{
 
     const matchResult=await comparator(userOutput,correctOutput);
 
+    if(matchResult.status=='AC'){
+        problem.correctSubmissions++;
+    }
+    problem.totalSubmissions++;
+    console.log(problem.correctSubmissions,problem.totalSubmissions)
+    await problem.save();
+    result.status=matchResult.status
     res.json({
-        result:matchResult,
-        executionTime:result.executionTime
+        
+        result:result,
+        problem:problem
     })
     
 }
