@@ -6,7 +6,7 @@ const { performance } = require('perf_hooks');
 const {errorParser} = require('../ErrorParser/errorParser');
 const {boundedProcessor} = require('../Processor/boundedProcessor');
 const {processor} = require('../Processor/processor')
-const jsExecutor=async (dirpath,lang,code,input)=>{
+const jsExecutor=async (dirpath,lang,code,input,timelimit=5000,memorylimit=1048576)=>{
     try{
         let filename='main.js';
         let filepath=path.join(dirpath,filename);
@@ -19,7 +19,7 @@ const jsExecutor=async (dirpath,lang,code,input)=>{
         let command='node '+filepath + ' < '+inputFilePath;
         // let result=await processor(command);
         let startTime=performance.now();
-        let result=await boundedProcessor(command);
+        let result=await boundedProcessor(command,timelimit,memorylimit);
         let endTime=performance.now();
 
         let executionTime=endTime-startTime;

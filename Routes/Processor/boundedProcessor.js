@@ -17,6 +17,7 @@ const boundedProcessor=async (command,timelimit=5000,memorylimit=1048576)=>{
             timeout:safeTimelimit,
             maxBuffer:safeMemorylimit
         }
+        console.log("options : ",options);
         const startTime=performance.now();
         let endTime=-1;
         const {stdout,stderr}=await exec(command,options);

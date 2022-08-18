@@ -1,74 +1,100 @@
-const util=require('util');
-const fs=require('fs');
-const path=require('path');
+const util = require('util');
+const fs = require('fs');
+const path = require('path');
 const { platform } = require('process');
 const { processor } = require('../Processor/processor');
-const child_process=require('child_process');
+const child_process = require('child_process');
 const exec = util.promisify(child_process.exec);
+const { performance } = require('perf_hooks');
+const {boundedProcessor} = require('../Processor/boundedProcessor');
 
-const cppExecutor=async (dirpath,lang,code,input)=>{
-    console.log("in cpp executor");
-    let sourceFileName="main.cpp";
-    let sourceFilePath=path.join(dirpath,sourceFileName);
-    fs.writeFileSync(sourceFilePath,code);
+const cppExecutor = async (dirpath, lang, code, input,timelimit=5000,memorylimit=1048576) => {
+    try {
 
-    let inputFileName="input_cpp.txt";
-    let inputFilePath=path.join(dirpath,inputFileName);
-    fs.writeFileSync(inputFilePath,input);
+        console.log("in cpp executor");
+        let sourceFileName = "main.cpp";
+        let sourceFilePath = path.join(dirpath, sourceFileName);
+        fs.writeFileSync(sourceFilePath, code);
 
-    let executableFilePath="";
-    let executableFileName="";
-    if(platform != 'win32'){
-        executableFileName='a.out';
-        executableFilePath=path.join(dirpath,executableFileName);
-    }else{
-        executableFileName='a.exe';
-        executableFilePath=path.join(dirpath,executableFileName);
-    }
+        let inputFileName = "input_cpp.txt";
+        let inputFilePath = path.join(dirpath, inputFileName);
+        fs.writeFileSync(inputFilePath, input);
 
-    // const compileCommand=`g++ ${sourceFilePath} -o ${executableFilePath}`;
-    const compileCommand=`g++ ${sourceFilePath} -o ${executableFilePath}`;
-    const compileResult=await processor(compileCommand);
-    let compileOutput=compileResult.stdout;
-    let compileError=compileResult.stderr;
-    console.log("compile output : ",compileOutput);
-    console.log("compile error : ",compileError);
-    let compileErrorList=compileError.split(sourceFilePath);
-    console.log(compileErrorList);
-    let compileTimeError=compileErrorList.join(' ');
+        let executableFilePath = "";
+        let executableFileName = "";
+        if (platform != 'win32') {
+            executableFileName = 'a.out';
+            executableFilePath = path.join(dirpath, executableFileName);
+        } else {
+            executableFileName = 'a.exe';
+            executableFilePath = path.join(dirpath, executableFileName);
+        }
+
+        // const compileCommand=`g++ ${sourceFilePath} -o ${executableFilePath}`;
+        const compileCommand = `g++ ${sourceFilePath} -o ${executableFilePath}`;
+        const compileResult = await processor(compileCommand);
+        let compileOutput = compileResult.stdout;
+        let compileError = compileResult.stderr;
+        
+        let compileErrorList = compileError.split(sourceFilePath);
+        console.log(compileErrorList);
+        let compileTimeError = compileErrorList.join(' ');
 
 
-    const checkerResult=await processor(`ls ${dirpath}`);
 
-    compileTimeError=compileError;
-    // let compileErrorList=compileError.split('\n');
-    // console.log(compileErrorList);
-    if(compileTimeError){
-        if(fs.existsSync(sourceFilePath)) fs.unlinkSync(sourceFilePath);
-        if(fs.existsSync(inputFilePath)) fs.unlinkSync(inputFilePath);
-        console.log("compileTimeError occured")
+        if (compileTimeError) {
+            console.log('compileTimeError',compileTimeError)
+            try{
+                if (fs.existsSync(sourceFilePath)) fs.unlinkSync(sourceFilePath);
+            }catch(err){
+                console.log(err);
+            }
+            try{
+                if (fs.existsSync(inputFilePath)) fs.unlinkSync(inputFilePath);
+            }catch(err){
+                console.log(err);
+            }
+            console.log("compileTimeError occured")
+            return {
+                output: compileTimeError,
+                error: 'compile time error',
+                executionTime:0.00
+            }
+        }
+        console.log("normal compiled");
+
+
+
+        // console.log('executableFilePath : ',executableFilePath);
+        try{
+            if (fs.existsSync(sourceFilePath)) fs.unlinkSync(sourceFilePath);
+        }catch(err){
+            console.log(err);
+        }
+        try{
+            if (fs.existsSync(inputFilePath)) fs.unlinkSync(inputFilePath);
+        }catch(err){
+            console.log(err);
+        }
+
+        const command=executableFilePath+' < '+inputFilePath;
+        const result=await boundedProcessor(command,timelimit,memorylimit)
+        console.log("executionTime : ",executionTime,timelimit,memorylimit)
+        console.log("result : ",result);
         return {
-            output:compileTimeError,
-            checker:checkerResult.stdout,
-            error:'compile time error'
+            output:result.stdout,
+            error:result.stderr,
+            executionTime:result.executionTime
+        }
+    }catch(err){
+        console.log("error : ",err)
+        return {
+            output:err.message,
+            error:err.message,
+            executionTime:0.00
         }
     }
-    console.log("normal compiled");
-
-    
-
-    // console.log('executableFilePath : ',executableFilePath);
-    if(fs.existsSync(sourceFilePath)) fs.unlinkSync(sourceFilePath);
-    if(fs.existsSync(inputFilePath)) fs.unlinkSync(inputFilePath);
-
-
-    const runtimeOutput=child_process.execFileSync(executableFilePath,{input:input}).toString();
-    return {
-        "checker":checkerResult.stdout,
-        "output":runtimeOutput
-    }
-    
 }
-module.exports={
-    cppExecutor:cppExecutor
+module.exports = {
+    cppExecutor: cppExecutor
 }
