@@ -70,7 +70,6 @@ const cppExecutor = async (dirpath, lang, code, input,timelimit=5000,memorylimit
 
         const command=executableFilePath+' < '+inputFilePath;
         const result=await boundedProcessor(command,timelimit,memorylimit)
-        console.log("executionTime : ",executionTime,timelimit,memorylimit)
         console.log("result : ",result);
         try{
             if (fs.existsSync(sourceFilePath)) fs.unlinkSync(sourceFilePath);
