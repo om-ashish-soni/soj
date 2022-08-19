@@ -66,6 +66,12 @@ const cppExecutor = async (dirpath, lang, code, input,timelimit=5000,memorylimit
 
 
         // console.log('executableFilePath : ',executableFilePath);
+        
+
+        const command=executableFilePath+' < '+inputFilePath;
+        const result=await boundedProcessor(command,timelimit,memorylimit)
+        console.log("executionTime : ",executionTime,timelimit,memorylimit)
+        console.log("result : ",result);
         try{
             if (fs.existsSync(sourceFilePath)) fs.unlinkSync(sourceFilePath);
         }catch(err){
@@ -76,11 +82,6 @@ const cppExecutor = async (dirpath, lang, code, input,timelimit=5000,memorylimit
         }catch(err){
             console.log(err);
         }
-
-        const command=executableFilePath+' < '+inputFilePath;
-        const result=await boundedProcessor(command,timelimit,memorylimit)
-        console.log("executionTime : ",executionTime,timelimit,memorylimit)
-        console.log("result : ",result);
         return {
             output:result.stdout,
             error:result.stderr,
