@@ -89,8 +89,8 @@ const cppExecutor = async (dirpath, lang, code, input,timelimit=5000,memorylimit
     }catch(err){
         console.log("error : ",err)
         return {
-            output:err.message,
-            error:err.message,
+            output:err,
+            error:err,
             executionTime:0.00
         }
     }
