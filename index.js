@@ -30,15 +30,15 @@ app.use(bodyParser.urlencoded({
 app.use(cookieParser());
 app.use(cors({
     origin: true,
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST","HEAD","PUT","DELETE","CONNECT","OPTIONS","TRACE"],
     credentials: true,
 }));
 
-app.all('/*', function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    next();
-});
+app.options('*', cors({
+    origin: true,
+    methods: ["GET", "POST","HEAD","PUT","DELETE","CONNECT","OPTIONS","TRACE"],
+    credentials: true,
+}))
 
 app.use('/auth', authenticationRouter);
 app.use('/problems', problemsRouter);
