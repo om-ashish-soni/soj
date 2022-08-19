@@ -32,13 +32,9 @@ app.use(cors({
     origin: true,
     methods: ["GET", "POST","HEAD","PUT","DELETE","CONNECT","OPTIONS","TRACE"],
     credentials: true,
+    preflightContinue: false
 }));
 
-app.options('*', cors({
-    origin: true,
-    methods: ["GET", "POST","HEAD","PUT","DELETE","CONNECT","OPTIONS","TRACE"],
-    credentials: true,
-}))
 
 app.use('/auth', authenticationRouter);
 app.use('/problems', problemsRouter);
