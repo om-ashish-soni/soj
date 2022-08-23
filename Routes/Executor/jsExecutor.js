@@ -35,12 +35,12 @@ const jsExecutor=async (dirpath,lang,code,input,timelimit=5000,memorylimit=10485
             console.log("could not beautify error : ",err);
         }
         
-        try{
-            fs.unlinkSync(filepath);
-            fs.unlinkSync(inputFilePath);
-        }catch(err){
-            console.log('error while deleting file',err);
-        }
+        // try{
+        //     fs.unlinkSync(filepath);
+        //     fs.unlinkSync(inputFilePath);
+        // }catch(err){
+        //     console.log('error while deleting file',err);
+        // }
         
 
         return {
