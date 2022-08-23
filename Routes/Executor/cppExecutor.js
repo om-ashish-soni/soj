@@ -57,7 +57,7 @@ const cppExecutor = async (dirpath, lang, code, input,timelimit=5000,memorylimit
             console.log("compileTimeError occured")
             return {
                 output: compileTimeError,
-                error: 'compile time error',
+                error: compileTimeError,
                 executionTime:0.00
             }
         }
