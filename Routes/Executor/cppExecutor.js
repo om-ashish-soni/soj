@@ -44,16 +44,16 @@ const cppExecutor = async (dirpath, lang, code, input,timelimit=5000,memorylimit
 
         if (compileTimeError) {
             console.log('compileTimeError',compileTimeError)
-            try{
-                if (fs.existsSync(sourceFilePath)) fs.unlinkSync(sourceFilePath);
-            }catch(err){
-                console.log(err);
-            }
-            try{
-                if (fs.existsSync(inputFilePath)) fs.unlinkSync(inputFilePath);
-            }catch(err){
-                console.log(err);
-            }
+            // try{
+            //     if (fs.existsSync(sourceFilePath)) fs.unlinkSync(sourceFilePath);
+            // }catch(err){
+            //     console.log(err);
+            // }
+            // try{
+            //     if (fs.existsSync(inputFilePath)) fs.unlinkSync(inputFilePath);
+            // }catch(err){
+            //     console.log(err);
+            // }
             console.log("compileTimeError occured")
             return {
                 output: compileTimeError,
@@ -71,16 +71,16 @@ const cppExecutor = async (dirpath, lang, code, input,timelimit=5000,memorylimit
         const command=executableFilePath+' < '+inputFilePath;
         const result=await boundedProcessor(command,timelimit,memorylimit)
         console.log("result : ",result);
-        try{
-            if (fs.existsSync(sourceFilePath)) fs.unlinkSync(sourceFilePath);
-        }catch(err){
-            console.log(err);
-        }
-        try{
-            if (fs.existsSync(inputFilePath)) fs.unlinkSync(inputFilePath);
-        }catch(err){
-            console.log(err);
-        }
+        // try{
+        //     if (fs.existsSync(sourceFilePath)) fs.unlinkSync(sourceFilePath);
+        // }catch(err){
+        //     console.log(err);
+        // }
+        // try{
+        //     if (fs.existsSync(inputFilePath)) fs.unlinkSync(inputFilePath);
+        // }catch(err){
+        //     console.log(err);
+        // }
         return {
             output:result.stdout,
             error:result.stderr,
