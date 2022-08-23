@@ -35,8 +35,8 @@ const pythonExecutor=async (dirpath,lang,code,input,timelimit=5000,memorylimit=1
 
         console.log("result : ",result);
         try{
-            fs.unlinkSync(filepath);
-            fs.unlinkSync(inputFilePath);
+            // fs.unlinkSync(filepath);
+            // fs.unlinkSync(inputFilePath);
         }catch(err){
             console.log('could not delete file',err);
         }
