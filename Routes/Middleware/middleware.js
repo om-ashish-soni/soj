@@ -8,6 +8,9 @@ const middleware = (req, res, next) => {
             jwt.verify(ACCESS_TOKEN, process.env.RANDOM_NUMBER, (err, result) => {
                 if (err) throw err
                 else{
+                    req.body.username=result.key.username;
+                    req.body.password=result.key.password;
+                    console.log(result.key.username,result.key.password)
                     console.log("verfied user : ",result.key);
                     next();
                 }
